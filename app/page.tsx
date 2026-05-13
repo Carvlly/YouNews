@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { PRESET_SOURCES } from '@/lib/types';
 import { SourceSelector } from '@/components/SourceSelector';
 import { NewsColumn } from '@/components/NewsColumn';
@@ -62,6 +63,9 @@ export default function Home() {
         </div>
         
         <div className="flex gap-[8px] sm:gap-[20px] items-center shrink-0">
+          <Link href="/about" className="text-[10px] sm:text-[12px] font-mono text-text-secondary hover:text-accent uppercase transition-colors">
+            About
+          </Link>
           <ThemeToggle />
           <SourceSelector 
             selectedSourceIds={selectedIds}

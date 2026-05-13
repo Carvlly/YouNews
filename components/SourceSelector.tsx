@@ -2,8 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { Settings, X } from 'lucide-react';
-import { PRESET_SOURCES, NewsSource } from '@/lib/types';
+import { PRESET_SOURCES, NewsSource, FeedCategory } from '@/lib/types';
 import Cookies from 'js-cookie';
+
+const CATEGORY_LABELS: Record<FeedCategory, string> = {
+  general: '総合ニュース',
+  tech: 'IT・テクノロジー',
+  business: 'ビジネス・経済',
+  developer: '開発者・ギーク',
+};
 
 interface SourceSelectorProps {
   selectedSourceIds: string[];
@@ -55,43 +62,57 @@ export function SourceSelector({ selectedSourceIds, onChange }: SourceSelectorPr
             <div className="p-5 max-h-[70vh] sm:max-h-[60vh] overflow-y-auto">
               <div className="mb-[24px]">
                 <h3 className="text-[11px] font-mono text-text-secondary uppercase mb-[20px]">Japan</h3>
-                <div className="flex flex-col">
-                  {PRESET_SOURCES.filter(s => s.region === 'japan').map((source) => (
-                    <label key={source.id} className="flex items-center gap-[10px] mb-[12px] text-[13px] text-text-primary cursor-pointer group">
-                      <div className="relative flex items-center justify-center">
-                        <input
-                          type="checkbox"
-                          checked={localSelection.includes(source.id)}
-                          onChange={() => handleToggle(source.id)}
-                          className="peer appearance-none w-[16px] h-[16px] border border-accent bg-bg-base rounded-[2px] cursor-pointer"
-                        />
-                        <svg className="absolute w-[12px] h-[12px] text-accent pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                <div className="flex flex-col gap-6">
+                  {Array.from(new Set(PRESET_SOURCES.filter(s => s.region === 'japan').map(s => s.category))).map(category => (
+                    <div key={category} className="flex flex-col">
+                      <h4 className="text-[11px] font-bold text-text-secondary mb-[12px]">{CATEGORY_LABELS[category]}</h4>
+                      <div className="flex flex-col">
+                        {PRESET_SOURCES.filter(s => s.region === 'japan' && s.category === category).map((source) => (
+                          <label key={source.id} className="flex items-center gap-[10px] mb-[12px] text-[13px] text-text-primary cursor-pointer group">
+                            <div className="relative flex items-center justify-center">
+                              <input
+                                type="checkbox"
+                                checked={localSelection.includes(source.id)}
+                                onChange={() => handleToggle(source.id)}
+                                className="peer appearance-none w-[16px] h-[16px] border border-accent bg-bg-base rounded-[2px] cursor-pointer"
+                              />
+                              <svg className="absolute w-[12px] h-[12px] text-accent pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                            </div>
+                            <span className="group-hover:text-accent transition-colors">{source.name}</span>
+                          </label>
+                        ))}
                       </div>
-                      <span className="group-hover:text-accent transition-colors">{source.name}</span>
-                    </label>
+                    </div>
                   ))}
                 </div>
               </div>
-              <div>
+              <div className="pt-4 border-t border-border-base">
                 <h3 className="text-[11px] font-mono text-text-secondary uppercase mb-[20px]">International</h3>
-                <div className="flex flex-col">
-                  {PRESET_SOURCES.filter(s => s.region === 'international').map((source) => (
-                    <label key={source.id} className="flex items-center gap-[10px] mb-[12px] text-[13px] text-text-primary cursor-pointer group">
-                      <div className="relative flex items-center justify-center">
-                        <input
-                          type="checkbox"
-                          checked={localSelection.includes(source.id)}
-                          onChange={() => handleToggle(source.id)}
-                          className="peer appearance-none w-[16px] h-[16px] border border-accent bg-bg-base rounded-[2px] cursor-pointer"
-                        />
-                        <svg className="absolute w-[12px] h-[12px] text-accent pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
+                <div className="flex flex-col gap-6">
+                  {Array.from(new Set(PRESET_SOURCES.filter(s => s.region === 'international').map(s => s.category))).map(category => (
+                    <div key={category} className="flex flex-col">
+                      <h4 className="text-[11px] font-bold text-text-secondary mb-[12px]">{CATEGORY_LABELS[category]}</h4>
+                      <div className="flex flex-col">
+                        {PRESET_SOURCES.filter(s => s.region === 'international' && s.category === category).map((source) => (
+                          <label key={source.id} className="flex items-center gap-[10px] mb-[12px] text-[13px] text-text-primary cursor-pointer group">
+                            <div className="relative flex items-center justify-center">
+                              <input
+                                type="checkbox"
+                                checked={localSelection.includes(source.id)}
+                                onChange={() => handleToggle(source.id)}
+                                className="peer appearance-none w-[16px] h-[16px] border border-accent bg-bg-base rounded-[2px] cursor-pointer"
+                              />
+                              <svg className="absolute w-[12px] h-[12px] text-accent pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                            </div>
+                            <span className="group-hover:text-accent transition-colors">{source.name}</span>
+                          </label>
+                        ))}
                       </div>
-                      <span className="group-hover:text-accent transition-colors">{source.name}</span>
-                    </label>
+                    </div>
                   ))}
                 </div>
               </div>

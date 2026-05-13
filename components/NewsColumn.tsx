@@ -32,7 +32,8 @@ export function NewsColumn({ source }: NewsColumnProps) {
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
-    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 100) {
+    // 余裕を持たせて下端から500px接近で次を読み込むように閾値を変更
+    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 500) {
       if (feed && visibleCount < feed.items.length) {
         setVisibleCount((prev) => Math.min(prev + 20, feed.items.length));
       }
@@ -124,6 +125,11 @@ export function NewsColumn({ source }: NewsColumnProps) {
                 );
               })}
             </AnimatePresence>
+            {feed && visibleCount >= feed.items.length && feed.items.length > 0 && (
+              <div className="py-8 text-center text-[11px] font-mono text-text-tertiary uppercase tracking-wider">
+                End of feed
+              </div>
+            )}
           </div>
         )}
       </div>

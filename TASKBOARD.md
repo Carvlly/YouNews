@@ -36,6 +36,23 @@ Title: YouNews
 - [x] Impress Watch, PC Watch, AV Watch, INTERNET Watch, Publickey のRSSを追加
 - [x] 表示をカテゴリ(japan/international)ベースでフィルタリングするように `SourceSelector.tsx` を改修
 
+### Phase 7: Aboutページの作成 (完了)
+- [x] /about ページを追加
+- [x] 「RSSフィードのみを対象としている事」「開発中であること」を掲載
+- [x] ヘッダーにAboutリンクを追加
+
+### Phase 8: メディア拡張2 (完了)
+- [x] 毎日新聞、産経新聞、東京新聞、日経クロステック、CNN.co.jp、東洋経済オンライン、ダイヤモンド・オンライン、日経ビジネス のRSSを追加 (Japanカテゴリ)
+- [x] 産経新聞、東京新聞、CNN.co.jp、ダイヤモンド・オンラインのRSSを非対応化
+
+### Phase 9: UI改善とカテゴリ分け (完了)
+- [x] ニュースサイトにカテゴリ（general, tech, business, developer）を付与
+- [x] Settingsダイアログ内の表示をカテゴリごとにグループ化して表示するように修正
+
+### Phase 10: メディア拡張3 (完了)
+- [x] CNN.co.jpとQiita (人気) のRSSを追加
+
 ### 既知のバグ
 - ~~スクロールできない問題~~ (修正済: GridからFlexレイアウトへ変更し高さを制約)
 - ~~RSSによる重複キーのWarning~~ (修正済: keyにindexを付与することで一意性を担保)
+- ~~一番下までスクロールしても新しい記事が表示されない~~ (修正済: スクロール検知の閾値を広げ、最後まで到達した際に"End of feed"という文言を表示するように修正)
