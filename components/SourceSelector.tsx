@@ -33,9 +33,10 @@ export function SourceSelector({ selectedSourceIds, onChange }: SourceSelectorPr
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-bg-card border border-accent text-accent px-[16px] py-[6px] text-[12px] rounded uppercase font-mono hover:bg-bg-hover transition-colors cursor-pointer"
+        className="bg-bg-card border border-accent text-accent px-[10px] py-[4px] sm:px-[16px] sm:py-[6px] text-[10px] sm:text-[12px] rounded uppercase font-mono hover:bg-bg-hover transition-colors cursor-pointer flex items-center gap-1"
       >
-        Settings
+        <Settings className="w-3 h-3 sm:hidden" />
+        <span className="hidden sm:inline">Settings</span>
       </button>
 
       {isOpen && (
@@ -51,7 +52,7 @@ export function SourceSelector({ selectedSourceIds, onChange }: SourceSelectorPr
               </button>
             </div>
             
-            <div className="p-5 max-h-[60vh] overflow-y-auto">
+            <div className="p-5 max-h-[70vh] sm:max-h-[60vh] overflow-y-auto">
               <div className="mb-[24px]">
                 <h3 className="text-[11px] font-mono text-text-secondary uppercase mb-[20px]">Japan</h3>
                 <div className="flex flex-col">

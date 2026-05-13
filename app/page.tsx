@@ -48,24 +48,20 @@ export default function Home() {
 
   const selectedSources = PRESET_SOURCES.filter(s => selectedIds.includes(s.id));
 
-  let gridColsClass = "grid-cols-1";
-  if (selectedSources.length === 2) gridColsClass = "sm:grid-cols-2";
-  else if (selectedSources.length >= 3) gridColsClass = "sm:grid-cols-2 lg:grid-cols-3";
-
   return (
     <div className="flex flex-col h-screen bg-bg-base overflow-hidden">
       {/* App Header */}
-      <header className="h-[64px] shrink-0 border-b border-border-base bg-bg-base px-6 flex items-center justify-between z-20">
-        <div className="flex items-center gap-[12px] text-text-primary">
-          <div className="w-[32px] h-[32px] bg-accent rounded flex items-center justify-center text-accent-fg font-bold">
+      <header className="h-[64px] shrink-0 border-b border-border-base bg-bg-base px-4 sm:px-6 flex items-center justify-between z-20">
+        <div className="flex items-center gap-[8px] sm:gap-[12px] text-text-primary min-w-0">
+          <div className="w-[28px] h-[28px] min-w-[28px] sm:w-[32px] sm:h-[32px] sm:min-w-[32px] bg-accent rounded flex items-center justify-center text-accent-fg font-bold text-sm sm:text-base">
             Y
           </div>
-          <div className="font-mono text-[20px] font-bold text-text-primary">
-            YouNews <span className="font-normal opacity-50 text-[14px]">/ v1.0.4</span>
+          <div className="font-mono text-[16px] sm:text-[20px] font-bold text-text-primary truncate">
+            YouNews <span className="hidden sm:inline font-normal opacity-50 text-[14px]">/ v1.0.4</span>
           </div>
         </div>
         
-        <div className="flex gap-[20px] items-center">
+        <div className="flex gap-[8px] sm:gap-[20px] items-center shrink-0">
           <ThemeToggle />
           <SourceSelector 
             selectedSourceIds={selectedIds}
@@ -75,10 +71,20 @@ export default function Home() {
       </header>
 
       {/* Main Content Area */}
-      <main className={`flex-1 overflow-x-auto overflow-y-hidden`}>
-        <div className={`h-full min-w-full grid ${gridColsClass} divide-y sm:divide-y-0 sm:divide-x divide-border-base`}>
+      <main 
+        className="flex-1 overflow-x-auto overflow-y-hidden snap-x snap-mandatory"
+        onWheel={(e) => {
+          // Allow horizontal scrolling using vertical mouse wheel,
+          // but don't interfere if the user is scrolling vertically inside a column
+          const isScrollableColumn = (e.target as HTMLElement).closest('.custom-scrollbar');
+          if (!isScrollableColumn) {
+            e.currentTarget.scrollLeft += e.deltaY;
+          }
+        }}
+      >
+        <div className="flex h-full min-w-full w-max divide-x divide-border-base">
           {selectedSources.map((source) => (
-            <div key={source.id} className="h-full min-w-[320px]">
+            <div key={source.id} className="w-[100vw] sm:w-[320px] sm:flex-1 sm:min-w-[320px] sm:max-w-none h-full flex-shrink-0 snap-start">
               <NewsColumn source={source} />
             </div>
           ))}

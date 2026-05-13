@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       title: feed.title || 'Unknown Feed',
-      items: items.slice(0, 30), // 最大30件
+      items: items.slice(0, 100), // 最大100件
     });
   } catch (error) {
     console.error(`Failed to fetch RSS from ${url}:`, error);

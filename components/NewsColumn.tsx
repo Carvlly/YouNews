@@ -15,6 +15,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
   const [feed, setFeed] = useState<Feed | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(20);
 
   const fetchFeed = async () => {
     setLoading(true);
@@ -24,6 +25,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
       if (!res.ok) throw new Error('Failed to fetch feed');
       const data = await res.json();
       setFeed(data);
+      setVisibleCount(20); // Reset on new fetch
     } catch (err) {
       console.error(err);
       setError('Error loading feed');
@@ -35,6 +37,15 @@ export function NewsColumn({ source }: NewsColumnProps) {
   useEffect(() => {
     fetchFeed();
   }, [source.url]);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 100) {
+      if (feed && visibleCount < feed.items.length) {
+        setVisibleCount((prev) => Math.min(prev + 20, feed.items.length));
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col h-full bg-bg-base">
@@ -56,7 +67,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto px-0 py-0 flex flex-col min-h-0 custom-scrollbar">
+      <div onScroll={handleScroll} className="flex-1 overflow-y-auto px-0 py-0 flex flex-col min-h-0 custom-scrollbar">
         {loading ? (
           <div className="flex flex-col">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -80,7 +91,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
         ) : (
           <div className="flex flex-col">
             <AnimatePresence>
-              {feed?.items.map((item, index) => {
+              {feed?.items.slice(0, visibleCount).map((item, index) => {
                 // Determine relative time
                 let relativeTime = '';
                 try {
@@ -95,7 +106,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
 
                 return (
                   <motion.a
-                    key={item.id}
+                    key={`${item.id}-${index}`}
                     href={item.link}
                     target="_blank"
                     rel="noopener noreferrer"
