@@ -39,30 +39,32 @@ export function NewsColumn({ source }: NewsColumnProps) {
   return (
     <div className="flex flex-col h-full bg-[#0f0f0f]">
       {/* Column Header */}
-      <div className="sticky top-0 z-10 bg-[#0f0f0f]/90 backdrop-blur-md px-4 py-3 border-b border-[#2a2a2a] flex items-center justify-between">
-        <h2 className="font-mono font-bold text-[#e8e8e8] text-lg flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#4ade80]"></span>
-          {source.name}
-        </h2>
+      <div className="sticky top-0 z-10 bg-[#161616] px-4 py-3 border-b border-[#2a2a2a] flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h2 className="font-mono font-bold text-[#e8e8e8] text-xs flex items-center uppercase tracking-wider text-[#4ade80]">
+            {source.name}
+          </h2>
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#2a2a2a] text-[#4ade80] uppercase">Feed Active</span>
+        </div>
         <button 
           onClick={fetchFeed} 
           disabled={loading}
-          className="p-1.5 hover:bg-[#2a2a2a] rounded-md transition-colors text-gray-400 hover:text-white disabled:opacity-50"
+          className="p-1 hover:bg-[#2a2a2a] rounded transition-colors text-gray-400 hover:text-white disabled:opacity-50"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto px-0 py-0 flex flex-col min-h-0 custom-scrollbar">
         {loading ? (
-          <div className="space-y-4">
+          <div className="flex flex-col">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="bg-[#1a1a1a] rounded-xl p-4 animate-pulse border border-[#2a2a2a]/50">
-                <div className="h-5 bg-[#2a2a2a] rounded w-3/4 mb-3"></div>
-                <div className="h-4 bg-[#2a2a2a] rounded w-full mb-2"></div>
-                <div className="h-4 bg-[#2a2a2a] rounded w-5/6 mb-4"></div>
-                <div className="h-3 bg-[#2a2a2a] rounded w-1/4"></div>
+              <div key={i} className="p-4 border-b border-[#232323]">
+                <div className="h-3 w-2/5 mb-2 hd-skeleton"></div>
+                <div className="h-[18px] w-11/12 mb-2 hd-skeleton"></div>
+                <div className="h-3.5 w-full mb-1 hd-skeleton"></div>
+                <div className="h-3.5 w-4/5 hd-skeleton"></div>
               </div>
             ))}
           </div>
@@ -76,7 +78,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
             No articles found.
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="flex flex-col">
             <AnimatePresence>
               {feed?.items.map((item, index) => {
                 // Determine relative time
@@ -97,23 +99,24 @@ export function NewsColumn({ source }: NewsColumnProps) {
                     href={item.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                    className="block group bg-[#1a1a1a] hover:bg-[#222222] rounded-xl p-5 transition-colors"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2, delay: Math.min(index * 0.03, 0.3) }}
+                    className="block group p-4 border-b border-[#232323] hover:bg-[#1a1a1a] transition-colors"
                   >
-                    <h3 className="text-[#e8e8e8] font-bold leading-tight mb-2 group-hover:text-[#4ade80] transition-colors line-clamp-2">
+                    <div className="flex items-center text-[11px] font-mono text-[#888] mb-2 gap-2">
+                       <span>{relativeTime}</span>
+                       <span>•</span>
+                       <span>{new URL(item.link || 'http://localhost').hostname.replace('www.', '')}</span>
+                    </div>
+                    <h3 className="text-[14px] font-semibold leading-[1.4] mb-1.5 group-hover:text-[#e8e8e8] text-[#e8e8e8] transition-colors">
                       {item.title}
                     </h3>
                     {item.description && (
-                      <p className="text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">
+                      <p className="text-[12px] text-[#aaa] leading-[1.5] line-clamp-2">
                         {item.description}
                       </p>
                     )}
-                    <div className="flex items-center justify-between text-xs font-mono text-gray-500">
-                      <span>{relativeTime}</span>
-                      <ExternalLink className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
                   </motion.a>
                 );
               })}

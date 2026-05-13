@@ -54,18 +54,23 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen bg-[#0f0f0f] overflow-hidden">
       {/* App Header */}
-      <header className="h-16 shrink-0 border-b border-[#2a2a2a] bg-[#0f0f0f] px-6 flex items-center justify-between z-20">
-        <div className="flex items-center gap-2 text-[#e8e8e8]">
-          <div className="w-6 h-6 bg-[#4ade80] rounded flex items-center justify-center">
-            <span className="font-mono font-bold text-[#0f0f0f] text-sm">Y</span>
+      <header className="h-[64px] shrink-0 border-b border-[#2a2a2a] bg-[#0f0f0f] px-6 flex items-center justify-between z-20">
+        <div className="flex items-center gap-[12px] text-[#e8e8e8]">
+          <div className="w-[32px] h-[32px] bg-[#4ade80] rounded flex items-center justify-center text-[#0f0f0f] font-bold">
+            Y
           </div>
-          <h1 className="font-mono text-xl font-bold tracking-tight">YouNews</h1>
+          <div className="font-mono text-[20px] font-bold">
+            YouNews <span className="font-normal opacity-50 text-[14px]">/ v1.0.4</span>
+          </div>
         </div>
         
-        <SourceSelector 
-          selectedSourceIds={selectedIds}
-          onChange={handleSourceChange}
-        />
+        <div className="flex gap-[20px] items-center">
+          <div className="font-mono text-[#4ade80] text-[12px]">SYNCING: 0ms ago</div>
+          <SourceSelector 
+            selectedSourceIds={selectedIds}
+            onChange={handleSourceChange}
+          />
+        </div>
       </header>
 
       {/* Main Content Area */}
