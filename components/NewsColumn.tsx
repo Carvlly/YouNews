@@ -37,19 +37,19 @@ export function NewsColumn({ source }: NewsColumnProps) {
   }, [source.url]);
 
   return (
-    <div className="flex flex-col h-full bg-[#0f0f0f]">
+    <div className="flex flex-col h-full bg-bg-base">
       {/* Column Header */}
-      <div className="sticky top-0 z-10 bg-[#161616] px-4 py-3 border-b border-[#2a2a2a] flex items-center justify-between">
+      <div className="sticky top-0 z-10 bg-bg-header px-4 py-3 border-b border-border-base flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h2 className="font-mono font-bold text-[#e8e8e8] text-xs flex items-center uppercase tracking-wider text-[#4ade80]">
+          <h2 className="font-mono font-bold text-accent text-xs flex items-center uppercase tracking-wider">
             {source.name}
           </h2>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#2a2a2a] text-[#4ade80] uppercase">Feed Active</span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-hover text-accent uppercase">Feed Active</span>
         </div>
         <button 
           onClick={fetchFeed} 
           disabled={loading}
-          className="p-1 hover:bg-[#2a2a2a] rounded transition-colors text-gray-400 hover:text-white disabled:opacity-50"
+          className="p-1 hover:bg-bg-hover rounded transition-colors text-text-tertiary hover:text-text-primary disabled:opacity-50"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
         </button>
@@ -60,7 +60,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
         {loading ? (
           <div className="flex flex-col">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="p-4 border-b border-[#232323]">
+              <div key={i} className="p-4 border-b border-border-base">
                 <div className="h-3 w-2/5 mb-2 hd-skeleton"></div>
                 <div className="h-[18px] w-11/12 mb-2 hd-skeleton"></div>
                 <div className="h-3.5 w-full mb-1 hd-skeleton"></div>
@@ -69,12 +69,12 @@ export function NewsColumn({ source }: NewsColumnProps) {
             ))}
           </div>
         ) : error ? (
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-gray-500">
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-text-secondary">
             <p className="mb-2">{error}</p>
-            <button onClick={fetchFeed} className="text-[#4ade80] hover:underline text-sm font-mono">Try again</button>
+            <button onClick={fetchFeed} className="text-accent hover:underline text-sm font-mono">Try again</button>
           </div>
         ) : feed?.items.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-gray-500 text-sm font-mono">
+          <div className="h-full flex items-center justify-center text-text-secondary text-sm font-mono">
             No articles found.
           </div>
         ) : (
@@ -102,18 +102,18 @@ export function NewsColumn({ source }: NewsColumnProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2, delay: Math.min(index * 0.03, 0.3) }}
-                    className="block group p-4 border-b border-[#232323] hover:bg-[#1a1a1a] transition-colors"
+                    className="block group p-4 border-b border-border-base hover:bg-bg-hover transition-colors"
                   >
-                    <div className="flex items-center text-[11px] font-mono text-[#888] mb-2 gap-2">
+                    <div className="flex items-center text-[11px] font-mono text-text-tertiary mb-2 gap-2">
                        <span>{relativeTime}</span>
                        <span>•</span>
                        <span>{new URL(item.link || 'http://localhost').hostname.replace('www.', '')}</span>
                     </div>
-                    <h3 className="text-[14px] font-semibold leading-[1.4] mb-1.5 group-hover:text-[#e8e8e8] text-[#e8e8e8] transition-colors">
+                    <h3 className="text-[14px] font-semibold leading-[1.4] mb-1.5 group-hover:text-text-primary text-text-primary transition-colors">
                       {item.title}
                     </h3>
                     {item.description && (
-                      <p className="text-[12px] text-[#aaa] leading-[1.5] line-clamp-2">
+                      <p className="text-[12px] text-text-secondary leading-[1.5] line-clamp-2">
                         {item.description}
                       </p>
                     )}

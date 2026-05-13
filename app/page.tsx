@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { PRESET_SOURCES } from '@/lib/types';
 import { SourceSelector } from '@/components/SourceSelector';
 import { NewsColumn } from '@/components/NewsColumn';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import Cookies from 'js-cookie';
 
 const COOKIE_KEY = 'younews_sources';
@@ -39,8 +40,8 @@ export default function Home() {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f] flex flex-col items-center justify-center">
-         <div className="w-8 h-8 rounded-full border-t-2 border-[#4ade80] animate-spin"></div>
+      <div className="min-h-screen bg-bg-base flex flex-col items-center justify-center">
+         <div className="w-8 h-8 rounded-full border-t-2 border-accent animate-spin"></div>
       </div>
     );
   }
@@ -52,20 +53,20 @@ export default function Home() {
   else if (selectedSources.length >= 3) gridColsClass = "sm:grid-cols-2 lg:grid-cols-3";
 
   return (
-    <div className="flex flex-col h-screen bg-[#0f0f0f] overflow-hidden">
+    <div className="flex flex-col h-screen bg-bg-base overflow-hidden">
       {/* App Header */}
-      <header className="h-[64px] shrink-0 border-b border-[#2a2a2a] bg-[#0f0f0f] px-6 flex items-center justify-between z-20">
-        <div className="flex items-center gap-[12px] text-[#e8e8e8]">
-          <div className="w-[32px] h-[32px] bg-[#4ade80] rounded flex items-center justify-center text-[#0f0f0f] font-bold">
+      <header className="h-[64px] shrink-0 border-b border-border-base bg-bg-base px-6 flex items-center justify-between z-20">
+        <div className="flex items-center gap-[12px] text-text-primary">
+          <div className="w-[32px] h-[32px] bg-accent rounded flex items-center justify-center text-accent-fg font-bold">
             Y
           </div>
-          <div className="font-mono text-[20px] font-bold">
+          <div className="font-mono text-[20px] font-bold text-text-primary">
             YouNews <span className="font-normal opacity-50 text-[14px]">/ v1.0.4</span>
           </div>
         </div>
         
         <div className="flex gap-[20px] items-center">
-          <div className="font-mono text-[#4ade80] text-[12px]">SYNCING: 0ms ago</div>
+          <ThemeToggle />
           <SourceSelector 
             selectedSourceIds={selectedIds}
             onChange={handleSourceChange}
@@ -75,7 +76,7 @@ export default function Home() {
 
       {/* Main Content Area */}
       <main className={`flex-1 overflow-x-auto overflow-y-hidden`}>
-        <div className={`h-full min-w-full grid ${gridColsClass} divide-y sm:divide-y-0 sm:divide-x divide-[#2a2a2a]`}>
+        <div className={`h-full min-w-full grid ${gridColsClass} divide-y sm:divide-y-0 sm:divide-x divide-border-base`}>
           {selectedSources.map((source) => (
             <div key={source.id} className="h-full min-w-[320px]">
               <NewsColumn source={source} />

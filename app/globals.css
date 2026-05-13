@@ -1,22 +1,73 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  --color-bg-base: var(--bg-base);
+  --color-bg-header: var(--bg-header);
+  --color-bg-card: var(--bg-card);
+  --color-bg-hover: var(--bg-hover);
+  --color-border-base: var(--border-base);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+}
+
+@layer base {
+  :root {
+    --bg-base: #f9fafb;
+    --bg-header: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f3f4f6;
+    --border-base: #e5e7eb;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-tertiary: #9ca3af;
+    --accent: #16a34a;
+    --accent-fg: #ffffff;
+    --skeleton-1: #e5e7eb;
+    --skeleton-2: #f3f4f6;
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: #d1d5db;
+    --scrollbar-thumb-hover: #9ca3af;
+  }
+  .dark {
+    --bg-base: #0f0f0f;
+    --bg-header: #161616;
+    --bg-card: #1a1a1a;
+    --bg-hover: #222222;
+    --border-base: #2a2a2a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #aaaaaa;
+    --text-tertiary: #555555;
+    --accent: #4ade80;
+    --accent-fg: #0f0f0f;
+    --skeleton-1: #1a1a1a;
+    --skeleton-2: #222222;
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: #2a2a2a;
+    --scrollbar-thumb-hover: #3a3a3a;
+  }
+}
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--scrollbar-track);
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-[#2a2a2a] rounded-full;
+    background-color: var(--scrollbar-thumb);
+    border-radius: 9999px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-[#3a3a3a];
+    background-color: var(--scrollbar-thumb-hover);
   }
 
   .hd-skeleton {
-    background: linear-gradient(90deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%);
+    background: linear-gradient(90deg, var(--skeleton-1) 25%, var(--skeleton-2) 50%, var(--skeleton-1) 75%);
     background-size: 200% 100%;
     animation: hd-pulse 1.5s infinite;
   }

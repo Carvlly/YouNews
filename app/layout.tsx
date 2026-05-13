@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import { JetBrains_Mono, Noto_Sans_JP } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
 import './globals.css'; // Global styles
 
 const jetbrainsMono = JetBrains_Mono({
@@ -20,9 +21,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="ja" className={`${jetbrainsMono.variable} ${notoSansJP.variable}`}>
-      <body className="font-sans bg-[#0f0f0f] text-[#e8e8e8] min-h-screen antialiased selection:bg-[#4ade80] selection:text-[#0f0f0f]" suppressHydrationWarning>
-        {children}
+    <html lang="ja" className={`${jetbrainsMono.variable} ${notoSansJP.variable}`} suppressHydrationWarning>
+      <body className="font-sans bg-bg-base text-text-primary min-h-screen antialiased selection:bg-accent selection:text-accent-fg" suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="light">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
