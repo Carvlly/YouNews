@@ -56,7 +56,7 @@ export function SourceSelector({ selectedSourceIds, onChange }: SourceSelectorPr
               <div className="mb-[24px]">
                 <h3 className="text-[11px] font-mono text-text-secondary uppercase mb-[20px]">Japan</h3>
                 <div className="flex flex-col">
-                  {PRESET_SOURCES.slice(0, 5).map((source) => (
+                  {PRESET_SOURCES.filter(s => s.region === 'japan').map((source) => (
                     <label key={source.id} className="flex items-center gap-[10px] mb-[12px] text-[13px] text-text-primary cursor-pointer group">
                       <div className="relative flex items-center justify-center">
                         <input
@@ -77,7 +77,7 @@ export function SourceSelector({ selectedSourceIds, onChange }: SourceSelectorPr
               <div>
                 <h3 className="text-[11px] font-mono text-text-secondary uppercase mb-[20px]">International</h3>
                 <div className="flex flex-col">
-                  {PRESET_SOURCES.slice(5).map((source) => (
+                  {PRESET_SOURCES.filter(s => s.region === 'international').map((source) => (
                     <label key={source.id} className="flex items-center gap-[10px] mb-[12px] text-[13px] text-text-primary cursor-pointer group">
                       <div className="relative flex items-center justify-center">
                         <input

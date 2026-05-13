@@ -32,6 +32,10 @@ Title: YouNews
 - [x] SWRによるクライアント側データフェッチの最適化 (`useSWR` の導入と古い `useEffect` + `fetch` の削除、無駄な再フェッチの抑止)
 - [x] APIルートでの外部RSSアクセス負荷軽減 (Next.js キャッシュ用 `Cache-Control` ヘッダー `s-maxage=300, stale-while-revalidate=600` の付与)
 
+### Phase 6: メディア拡張 (完了)
+- [x] Impress Watch, PC Watch, AV Watch, INTERNET Watch, Publickey のRSSを追加
+- [x] 表示をカテゴリ(japan/international)ベースでフィルタリングするように `SourceSelector.tsx` を改修
+
 ### 既知のバグ
 - ~~スクロールできない問題~~ (修正済: GridからFlexレイアウトへ変更し高さを制約)
 - ~~RSSによる重複キーのWarning~~ (修正済: keyにindexを付与することで一意性を担保)
