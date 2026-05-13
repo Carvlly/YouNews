@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import useSWR from 'swr';
 import { ExternalLink, RefreshCw } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ja } from 'date-fns/locale';
@@ -11,32 +12,23 @@ interface NewsColumnProps {
   source: NewsSource;
 }
 
+const fetcher = (url: string) => fetch(url).then((res) => {
+  if (!res.ok) throw new Error('Failed to fetch feed');
+  return res.json();
+});
+
 export function NewsColumn({ source }: NewsColumnProps) {
-  const [feed, setFeed] = useState<Feed | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(20);
 
-  const fetchFeed = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/rss?url=${encodeURIComponent(source.url)}`);
-      if (!res.ok) throw new Error('Failed to fetch feed');
-      const data = await res.json();
-      setFeed(data);
-      setVisibleCount(20); // Reset on new fetch
-    } catch (err) {
-      console.error(err);
-      setError('Error loading feed');
-    } finally {
-      setLoading(false);
+  const { data: feed, error, isLoading, isValidating, mutate } = useSWR<Feed>(
+    `/api/rss?url=${encodeURIComponent(source.url)}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      onSuccess: () => setVisibleCount(20),
     }
-  };
-
-  useEffect(() => {
-    fetchFeed();
-  }, [source.url]);
+  );
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
@@ -58,17 +50,17 @@ export function NewsColumn({ source }: NewsColumnProps) {
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-hover text-accent uppercase">Feed Active</span>
         </div>
         <button 
-          onClick={fetchFeed} 
-          disabled={loading}
+          onClick={() => mutate()} 
+          disabled={isValidating}
           className="p-1 hover:bg-bg-hover rounded transition-colors text-text-tertiary hover:text-text-primary disabled:opacity-50"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${isValidating ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
       {/* Content Area */}
       <div onScroll={handleScroll} className="flex-1 overflow-y-auto px-0 py-0 flex flex-col min-h-0 custom-scrollbar">
-        {loading ? (
+        {isLoading ? (
           <div className="flex flex-col">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="p-4 border-b border-border-base">
@@ -81,8 +73,8 @@ export function NewsColumn({ source }: NewsColumnProps) {
           </div>
         ) : error ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-text-secondary">
-            <p className="mb-2">{error}</p>
-            <button onClick={fetchFeed} className="text-accent hover:underline text-sm font-mono">Try again</button>
+            <p className="mb-2">{error instanceof Error ? error.message : 'Error loading feed'}</p>
+            <button onClick={() => mutate()} className="text-accent hover:underline text-sm font-mono">Try again</button>
           </div>
         ) : feed?.items.length === 0 ? (
           <div className="h-full flex items-center justify-center text-text-secondary text-sm font-mono">

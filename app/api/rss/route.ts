@@ -45,6 +45,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       title: feed.title || 'Unknown Feed',
       items: items.slice(0, 100), // 最大100件
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      }
     });
   } catch (error) {
     console.error(`Failed to fetch RSS from ${url}:`, error);
