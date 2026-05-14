@@ -66,6 +66,12 @@ Title: YouNews
 ### Phase 13: バージョン表記の更新 (完了)
 - [x] バージョン表記を `v1.0.4` から `v1.1.0` に更新 (`app/page.tsx`, `app/about/page.tsx`)
 
+### Phase 14: SEO最適化とセマンティックタグ改善 (完了)
+- [x] メタデータ (OGP / Twitter Cardなど) の充実 (`app/layout.tsx`)
+- [x] JSON-LDの追加 (`app/layout.tsx`)
+- [x] robots.txt と sitemap.xml の生成 (`app/robots.ts`, `app/sitemap.ts`)
+- [x] セマンティックHTML（h1, section, article）への変更 (`app/page.tsx`, `components/NewsColumn.tsx`)
+
 ### 既知のバグ
 - ~~スクロールできない問題~~ (修正済: GridからFlexレイアウトへ変更し高さを制約)
 - ~~RSSによる重複キーのWarning~~ (修正済: keyにindexを付与することで一意性を担保)

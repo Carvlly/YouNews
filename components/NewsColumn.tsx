@@ -41,9 +41,9 @@ export function NewsColumn({ source }: NewsColumnProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-bg-base">
+    <section className="flex flex-col h-full bg-bg-base">
       {/* Column Header */}
-      <div className="sticky top-0 z-10 bg-bg-header px-4 py-3 border-b border-border-base flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-bg-header px-4 py-3 border-b border-border-base flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="font-mono font-bold text-accent text-xs flex items-center uppercase tracking-wider">
             {source.name}
@@ -57,7 +57,7 @@ export function NewsColumn({ source }: NewsColumnProps) {
         >
           <RefreshCw className={`w-3.5 h-3.5 ${isValidating ? 'animate-spin' : ''}`} />
         </button>
-      </div>
+      </header>
 
       {/* Content Area */}
       <div onScroll={handleScroll} className="flex-1 overflow-y-auto px-0 py-0 flex flex-col min-h-0 custom-scrollbar">
@@ -98,30 +98,34 @@ export function NewsColumn({ source }: NewsColumnProps) {
                 }
 
                 return (
-                  <motion.a
+                  <motion.article
                     key={`${item.id}-${index}`}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2, delay: Math.min(index * 0.03, 0.3) }}
-                    className="block group p-4 border-b border-border-base hover:bg-bg-hover transition-colors"
+                    className="border-b border-border-base hover:bg-bg-hover transition-colors"
                   >
-                    <div className="flex items-center text-[11px] font-mono text-text-tertiary mb-2 gap-2">
-                       <span>{relativeTime}</span>
-                       <span>•</span>
-                       <span>{new URL(item.link || 'http://localhost').hostname.replace('www.', '')}</span>
-                    </div>
-                    <h3 className="text-[14px] font-semibold leading-[1.4] mb-1.5 group-hover:text-text-primary text-text-primary transition-colors">
-                      {item.title}
-                    </h3>
-                    {item.description && (
-                      <p className="text-[12px] text-text-secondary leading-[1.5] line-clamp-2">
-                        {item.description}
-                      </p>
-                    )}
-                  </motion.a>
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block group p-4"
+                    >
+                      <header className="flex items-center text-[11px] font-mono text-text-tertiary mb-2 gap-2">
+                         <span>{relativeTime}</span>
+                         <span>•</span>
+                         <span>{new URL(item.link || 'http://localhost').hostname.replace('www.', '')}</span>
+                      </header>
+                      <h3 className="text-[14px] font-semibold leading-[1.4] mb-1.5 group-hover:text-text-primary text-text-primary transition-colors">
+                        {item.title}
+                      </h3>
+                      {item.description && (
+                        <p className="text-[12px] text-text-secondary leading-[1.5] line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
+                    </a>
+                  </motion.article>
                 );
               })}
             </AnimatePresence>
@@ -133,6 +137,6 @@ export function NewsColumn({ source }: NewsColumnProps) {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }

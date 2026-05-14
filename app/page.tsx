@@ -69,12 +69,12 @@ export default function Home() {
               referrerPolicy="no-referrer"
             />
           </div>
-          <div className="font-mono text-[16px] sm:text-[20px] font-bold text-text-primary z-10 truncate">
+          <h1 className="font-mono text-[16px] sm:text-[20px] font-bold text-text-primary z-10 truncate">
             YouNews{" "}
             <span className="hidden sm:inline font-normal opacity-50 text-[14px]">
               / v1.1.0
             </span>
-          </div>
+          </h1>
         </div>
 
         <div className="flex gap-[8px] sm:gap-[20px] items-center shrink-0">
