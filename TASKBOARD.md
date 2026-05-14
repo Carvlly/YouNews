@@ -52,6 +52,20 @@ Title: YouNews
 ### Phase 10: メディア拡張3 (完了)
 - [x] CNN.co.jpとQiita (人気) のRSSを追加
 
+### Phase 11: ブランクスレートとロゴの反映 (完了)
+- [x] ロゴ画像を `logo.png` (新しくアップロードされた画像) に差し替え
+- [x] ヘッダー等のロゴのレイアウトを「レイヤー下（背景的）」な扱いへ変更し `mix-blend-mode` 等を適用
+- [x] デザイン指定を修正し、ヘッダー・ブランク画面のロゴをテキスト横や中央配置の通常のアイコン表示へ戻す (blend-modeやopacityを調整)
+- [x] ソースが0個の時はメインエリアの中央に透かしロゴと案内文を表示
+- [x] 選択をすべて解除したときに、デフォルトソースにフォールバックさせず空のまま保存・表示するよう修正
+
+### Phase 12: クリーンアップ (完了)
+- [x] 未使用の依存関係 (`@hookform/resolvers`, `class-variance-authority`, `clsx`, `tailwind-merge`, `@google/genai`) を削除
+- [x] 未使用のコード (`lib/utils.ts`, `hooks/use-mobile.ts`) を削除し、空の `hooks` ディレクトリを削除
+
+### Phase 13: バージョン表記の更新 (完了)
+- [x] バージョン表記を `v1.0.4` から `v1.1.0` に更新 (`app/page.tsx`, `app/about/page.tsx`)
+
 ### 既知のバグ
 - ~~スクロールできない問題~~ (修正済: GridからFlexレイアウトへ変更し高さを制約)
 - ~~RSSによる重複キーのWarning~~ (修正済: keyにindexを付与することで一意性を担保)
